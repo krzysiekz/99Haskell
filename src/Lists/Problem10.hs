@@ -17,3 +17,5 @@ import Lists.Problem9
 encode :: (Eq a) => [a] -> [(Int, a)]
 encode list = map (\elem@(x:xs) -> (length elem, x)) (pack list)
 
+encode' :: (Eq a) => [a] -> [(Int, a)]
+encode' list = [(length x, head x) | x <- pack list]
