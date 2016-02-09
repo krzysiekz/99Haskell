@@ -1,6 +1,7 @@
 module Lists.Problem11 where
 
 import Lists.Problem9
+import Lists.Problem10
 
 -- (*) Modified run-length encoding.
 --
@@ -25,4 +26,9 @@ encodeModified list = map (\elem@(x:xs) ->
 
 encodeModified' :: (Eq a) => [a] -> [Result a]
 encodeModified' list = [if length x == 1 then Single (head x) else Multiple (length x) (head x) | x <- pack list]
+
+encodeModified'' :: (Eq a) => [a] -> [Result a]
+encodeModified''= map convert .encode
+    where convert (1, x) = Single x
+          convert (c, x) = Multiple c x
 
