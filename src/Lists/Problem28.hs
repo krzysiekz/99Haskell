@@ -27,11 +27,20 @@ module Lists.Problem28 where
 -- lfsort ["abc", "de", "fgh", "de", "ijkl", "mn", "o"]
 -- ["ijkl","o","abc","fgh","de","de","mn"]
 
+import Data.List
+import Data.Function
+
 lsort :: [[a]] -> [[a]]
 lsort [] = []
 lsort (x:xs) = left ++ [x] ++ right
     where left = lsort $ filter (\e -> length e <= length x) xs
           right = lsort $ filter (\e -> length e > length x) xs
+
+lsort' :: [[a]] -> [[a]]
+lsort' = sortBy (\a b -> compare (length a) (length b))
+
+lsort'' :: [[a]] -> [[a]]
+lsort'' = sortBy (compare `on` length)
 
 lfsort :: [[a]] -> [[a]]
 lfsort [] = []
