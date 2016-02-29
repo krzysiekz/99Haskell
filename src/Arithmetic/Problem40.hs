@@ -22,4 +22,4 @@ goldbach :: Int -> (Int, Int)
 goldbach x
     | x <= 2 || odd x = error "Wrong input!!!"
     | otherwise = head [(i, j) | i <- primes, j <- primes, i+j==x ]
-    where primes = primesR 1 x
+    where primes = primesR 2 x
