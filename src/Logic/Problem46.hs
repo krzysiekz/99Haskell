@@ -22,6 +22,13 @@ module Logic.Problem46 where
 -- False True False
 -- False False False
 
+infixl 4 `or'`
+infixl 4 `nor'`
+infixl 5 `xor'`
+infixl 6 `and'`
+infixl 6 `nand'`
+infixl 3 `equ'`
+
 and' :: Bool -> Bool -> Bool
 and' True True = True
 and' _ _ = False
@@ -43,6 +50,11 @@ xor' :: Bool -> Bool -> Bool
 xor' True True = False
 xor' False False = False
 xor' _ _ = True
+
+equ' :: Bool -> Bool -> Bool
+equ' a b
+    | a==b = True
+    | otherwise = False
 
 table :: (Bool -> Bool -> Bool) -> [(Bool, Bool, Bool)]
 table f = [(a, b, f a b) | a <- [True, False], b <- [True, False]]

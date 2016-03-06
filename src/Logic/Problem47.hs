@@ -20,28 +20,6 @@ module Logic.Problem47 where
 -- False True False
 -- False False False
 
-and' :: Bool -> Bool -> Bool
-and' True True = True
-and' _ _ = False
-
-or' :: Bool -> Bool -> Bool
-or' True _ = True
-or' _ True = True
-or' _ _ = False
-
-nand' :: Bool -> Bool -> Bool
-nand' True True = False
-nand' _ _ = True
-
-nor' :: Bool -> Bool -> Bool
-nor' False False = True
-nor' _ _ = False
-
-xor' :: Bool -> Bool -> Bool
-xor' True True = False
-xor' False False = False
-xor' _ _ = True
-
 table2 :: (Bool -> Bool -> Bool) -> [(Bool, Bool, Bool)]
 table2 f = [(a, b, f a b) | a <- [True, False], b <- [True, False]]
 
