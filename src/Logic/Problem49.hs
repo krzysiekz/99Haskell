@@ -18,6 +18,6 @@ module Logic.Problem49 where
 -- ["000","001","011","010","110","111","101","100"]
 
 gray :: Int -> [String]
-gray 1 = ["1", "0"]
-gray num = [x:xs | x <- ['1', '0'],
-                   xs <- gray (num-1)]
+gray 0 = [""]
+gray num = map ('0':) prev ++ map ('1':) (reverse prev)
+    where prev = gray (num-1)
