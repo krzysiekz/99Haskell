@@ -22,7 +22,7 @@ type Frequency = Int
 data HuffmanTree = Empty | Node Character Frequency HuffmanTree HuffmanTree deriving (Show)
 
 huffman :: [(Char, Int)] -> [(Char, String)]
-huffman input = map (\(char, _) -> (char, findPath tree char)) input
+huffman input = map (\(char, _) -> (char, init (findPath tree char))) input
     where tree = head $ huffmanTree $ map (\(char, frequency) -> Node (Just char) frequency Empty Empty) input
 
 huffmanTree :: [HuffmanTree] -> [HuffmanTree]
@@ -36,5 +36,9 @@ sortTree = List.sortBy (\(Node _ f _ _) (Node _ f2 _ _) -> compare f f2)
 findPath :: HuffmanTree -> Char -> String
 findPath Empty _ = []
 findPath (Node char _ left right) target
-    | char == Just target = []
-    | otherwise = ('0' : findPath left target) ++ ('1' : findPath right target)
+    | char == Just target = ['x']
+    | not (null leftResult) = '0':leftResult
+    | not (null rightResult) = '1' : rightResult
+    | otherwise = []
+        where leftResult = findPath left target
+              rightResult = findPath right target
