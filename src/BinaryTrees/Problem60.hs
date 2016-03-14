@@ -29,10 +29,14 @@ import BinaryTrees.Problem55
 import BinaryTrees.Problem59
 
 hbalTreeNodes :: (Eq a, Ord a) => a -> Int -> [Tree a]
-hbalTreeNodes val n = filter ((== n) . countNodes) $ concatMap (hbalTree val) [min..5]
+hbalTreeNodes val n = filter ((== n) . countNodes) $ concatMap (hbalTree val) [min..max]
     where min = ceiling $ logBase 2 $ fromIntegral (n+1)
-          max = undefined
+          max = length (takeWhile (<=n) minNodesSeq) -1
 
 countNodes :: Tree a -> Int
 countNodes Empty = 0
 countNodes (Branch v l r) = 1 + countNodes l + countNodes r
+
+--minimal number od nodes needed to get height + 1 in binary tree is
+--represented as sequence similar to fibonacci but +1 is added in each step
+minNodesSeq = 0:1:zipWith ((+).(1+)) minNodesSeq (tail minNodesSeq)
