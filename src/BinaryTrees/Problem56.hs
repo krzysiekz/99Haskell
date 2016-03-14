@@ -22,6 +22,5 @@ symmetric (Branch _ left right) = symmetric' left right
 
 symmetric' :: (Eq a) => Tree a -> Tree a -> Bool
 symmetric' Empty Empty = True
-symmetric' _ Empty = False
-symmetric' Empty _ = False
 symmetric' (Branch _ l1 r1) (Branch _ l2 r2) = symmetric' l1 r2 && symmetric' r1 l2
+symmetric' _ _ = False
