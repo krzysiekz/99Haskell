@@ -1,4 +1,6 @@
-module MultiwayTrees.Problem73 where
+module MultiwayTrees.Problem73
+(lisp, lispToTree)
+where
 
 -- (**) Lisp-like tree representation.
 --
@@ -34,9 +36,33 @@ module MultiwayTrees.Problem73 where
 
 import MultiwayTrees.Problem70C
 import Data.List
+import Data.Char
 
 lisp :: Tree Char -> String
 lisp (Node val []) = [val]
 lisp (Node val c) = "(" ++ [val] ++ concatMap lisp c ++ ")"
+
+lispToTree :: String -> Tree Char
+lispToTree s = lispToTree' $ head $ partitionNodes s
+
+lispToTree' :: String -> Tree Char
+lispToTree' [] = error "Cannot build tree from empty string"
+lispToTree' [x] = Node x []
+lispToTree' (x:xs) = Node x $ map lispToTree' $ partitionNodes xs
+
+partitionNodes :: String -> [String]
+partitionNodes [] = []
+partitionNodes s = node : partitionNodes rest
+    where (node, rest) = takeNode s 0
+
+takeNode :: String -> Int -> (String, String)
+takeNode [] _ = ([],[])
+takeNode (x:xs) n
+    | isAlphaNum x && n > 0 = let (node, rest) = takeNode xs n in (x:node, rest)
+    | x == '(' && n == 0 = let (node, rest) = takeNode xs (n+1) in (node, rest)
+    | x == '(' && n > 0 = let (node, rest) = takeNode xs (n+1) in (x:node, rest)
+    | x == ')' && n > 1 = let (node, rest) = takeNode xs (n-1) in (x:node, rest)
+    | x == ')' && n == 1 =  ([], xs)
+    | otherwise = ([x], xs)
 
 
