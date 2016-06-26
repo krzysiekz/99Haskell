@@ -46,6 +46,3 @@ friendlyToAdj (Edge e) = Adj edges
     where vertexes = nub $ foldl (\acc (x,y) -> x:y:acc) [] e
           edges = map (\v -> (v, findMatching v e)) vertexes
           findMatching v e = nub [if x == v then y else x | (x,y) <- e, x == v || y == v, x /= y]
-
-
-

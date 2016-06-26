@@ -1,4 +1,4 @@
-module Graphs.Problem83 where
+module Graphs.Problem83 (spanTree) where
 
 -- (**) Construct all spanning trees
 --
@@ -12,4 +12,19 @@ module Graphs.Problem83 where
 -- length $ spantree k4
 -- 16
 
-data Graph a = Graph [a] [(a, a)] deriving (Show, Eq)
+import Data.List
+
+data Graph a = Graph [a] [(a, a)] deriving (Show, Eq, Ord)
+
+k4 = Graph ['a', 'b', 'c', 'd'] [('a', 'b'), ('b', 'c'), ('c', 'd'), ('d', 'a'), ('a', 'c'), ('b', 'd')]
+
+spanTree :: (Eq a, Ord a) => Graph a -> [[(a,a)]]
+spanTree (Graph v e) = nub $ map sort $ spanTree' [head v] (tail v) e
+
+spanTree' :: (Eq a) => [a] -> [a] -> [(a,a)] -> [[(a,a)]]
+spanTree' _ [] _ = [[]]
+spanTree' visited unvisited edges = concatMap (\edge@(x,y) -> map (edge:) (spanTree' (newVisited x y visited) (newUnvisited x y unvisited) (newEgdes edge edges))) reachable
+    where reachable = filter (\(x,y) -> (x `elem` visited || y `elem` visited) && (x `elem` unvisited || y `elem` unvisited)) edges
+          newVisited x y oldVisited = (if x `elem` oldVisited then y else x):oldVisited
+          newUnvisited x y = filter (\u -> if x `elem` visited then u /= y else u /= x)
+          newEgdes edge = filter (/=edge)
